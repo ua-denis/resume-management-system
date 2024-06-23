@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resumes{% endblock %}
+
+{% block body %}
+    <h1>Resumes</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Job Title</th>
+            <th>Resume File</th>
+            <th>Resume Text</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resume in resumes %}
+            <tr>
+                <td>{{ resume.id }}</td>
+                <td>{{ resume.jobTitle }}</td>
+                <td>{{ resume.resumeFile }}</td>
+                <td>{{ resume.resumeText }}</td>
+                <td>
+                    <a href="{{ path('resume_edit', {'id': resume.id}) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ path('resume_delete', {'id': resume.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('resume_new') }}" class="btn btn-success">Add New Resume</a>
+{% endblock %}

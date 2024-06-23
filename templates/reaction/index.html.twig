@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reactions{% endblock %}
+
+{% block body %}
+    <h1>Reactions</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Resume ID</th>
+            <th>Company ID</th>
+            <th>Reaction Type</th>
+            <th>Sent Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reaction in reactions %}
+            <tr>
+                <td>{{ reaction.id }}</td>
+                <td>{{ reaction.resumeId }}</td>
+                <td>{{ reaction.companyId }}</td>
+                <td>{{ reaction.reactionType }}</td>
+                <td>{{ reaction.sentDate|date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('reaction_edit', {'id': reaction.id}) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ path('reaction_delete', {'id': reaction.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('reaction_new') }}" class="btn btn-success">Add New Reaction</a>
+{% endblock %}
