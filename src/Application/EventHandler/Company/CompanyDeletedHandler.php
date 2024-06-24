@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Company;
 
 use App\Domain\Event\Company\CompanyDeletedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CompanyDeletedHandler
+class CompanyDeletedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class CompanyDeletedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(CompanyDeletedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'company.deleted' => 'onCompanyDeleted',
+        ];
+    }
+
+    public function onCompanyDeleted(CompanyDeletedEvent $event): void
     {
         $this->logger->info('Company deleted', ['company' => $event->getCompany()]);
     }

@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Reaction;
 
 use App\Domain\Event\Reaction\ReactionDeletedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ReactionDeletedHandler
+class ReactionDeletedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ReactionDeletedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ReactionDeletedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'reaction.deleted' => 'onReactionDeleted',
+        ];
+    }
+
+    public function onReactionDeleted(ReactionDeletedEvent $event): void
     {
         $this->logger->info('Reaction deleted', ['reaction' => $event->getReaction()]);
     }

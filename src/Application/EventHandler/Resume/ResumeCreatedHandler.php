@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Resume;
 
 use App\Domain\Event\Resume\ResumeCreatedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ResumeCreatedHandler
+class ResumeCreatedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ResumeCreatedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ResumeCreatedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'resume.created' => 'onResumeCreated',
+        ];
+    }
+
+    public function onResumeCreated(ResumeCreatedEvent $event): void
     {
         $this->logger->info('Resume created', ['resume' => $event->getResume()]);
     }

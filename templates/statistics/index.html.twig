@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block body %}
+    <h1>Statistics</h1>
+    <h2>Most Positive Rated Resume</h2>
+    {% if mostPositiveRatedResume %}
+        <p>Resume ID: {{ mostPositiveRatedResume[0].resumeId }}</p>
+        <p>Positive Ratings: {{ mostPositiveRatedResume[0].positiveCount }}</p>
+    {% else %}
+        <p>No positive ratings found.</p>
+    {% endif %}
+{% endblock %}

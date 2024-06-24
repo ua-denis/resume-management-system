@@ -7,6 +7,7 @@ use App\Application\Command\Reaction\DeleteReactionCommand;
 use App\Application\Command\Reaction\UpdateReactionCommand;
 use App\Application\Query\Reaction\GetReactionByIdQuery;
 use App\Application\Service\ReactionService;
+use App\Contracts\Service\ReactionServiceInterface;
 use App\Presentation\Form\ReactionType;
 use DateTime;
 use Exception;
@@ -17,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ReactionController extends AbstractController
 {
-    private ReactionService $service;
+    private ReactionServiceInterface $service;
 
-    public function __construct(ReactionService $service)
+    public function __construct(ReactionServiceInterface $service)
     {
         $this->service = $service;
     }

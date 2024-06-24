@@ -44,4 +44,17 @@ class ReactionRepository extends ServiceEntityRepository implements ReactionRepo
     {
         return $this->findBy([], ['sentDate' => 'DESC']);
     }
+
+    public function findMostPositiveRatedResume(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r.resumeId, COUNT(r.id) as positiveCount')
+            ->where('r.reactionType = :positive')
+            ->setParameter('positive', 'positive')
+            ->groupBy('r.resumeId')
+            ->orderBy('positiveCount', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
 }

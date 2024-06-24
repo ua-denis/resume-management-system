@@ -5,6 +5,7 @@ namespace App\Infrastructure\Persistence\Database\Entity;
 use App\Common\Trait\Timestampable;
 use App\Common\ValueObject\PhoneNumber;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Infrastructure\Persistence\Database\Repository\CompanyRepository")

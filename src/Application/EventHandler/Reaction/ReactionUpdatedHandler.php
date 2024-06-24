@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Reaction;
 
 use App\Domain\Event\Reaction\ReactionUpdatedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ReactionUpdatedHandler
+class ReactionUpdatedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ReactionUpdatedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ReactionUpdatedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'reaction.updated' => 'onReactionUpdated',
+        ];
+    }
+
+    public function onReactionUpdated(ReactionUpdatedEvent $event): void
     {
         $this->logger->info('Reaction updated', ['reaction' => $event->getReaction()]);
     }

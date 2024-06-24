@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Resume;
 
 use App\Domain\Event\Resume\ResumeUpdatedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ResumeUpdatedHandler
+class ResumeUpdatedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ResumeUpdatedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ResumeUpdatedEvent $event): void
+    public static function getSubscribedEvents()
+    {
+        return [
+            'resume.updated' => 'onResumeUpdated',
+        ];
+    }
+
+    public function onResumeUpdated(ResumeUpdatedEvent $event): void
     {
         $this->logger->info('Resume updated', ['resume' => $event->getResume()]);
     }

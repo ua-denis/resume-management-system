@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Database\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Infrastructure\Persistence\Database\Repository\ReactionRepository")

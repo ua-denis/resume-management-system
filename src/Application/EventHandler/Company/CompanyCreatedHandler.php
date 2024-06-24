@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Company;
 
 use App\Domain\Event\Company\CompanyCreatedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CompanyCreatedHandler
+class CompanyCreatedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class CompanyCreatedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(CompanyCreatedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'company.created' => 'onCompanyCreated',
+        ];
+    }
+
+    public function onCompanyCreated(CompanyCreatedEvent $event): void
     {
         $this->logger->info('Company created', ['company' => $event->getCompany()]);
     }

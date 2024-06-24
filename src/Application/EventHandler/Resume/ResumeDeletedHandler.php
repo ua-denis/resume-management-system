@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Resume;
 
 use App\Domain\Event\Resume\ResumeDeletedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ResumeDeletedHandler
+class ResumeDeletedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ResumeDeletedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ResumeDeletedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'resume.deleted' => 'onResumeDeleted',
+        ];
+    }
+
+    public function onResumeDeleted(ResumeDeletedEvent $event): void
     {
         $this->logger->info('Resume deleted', ['resume' => $event->getResume()]);
     }

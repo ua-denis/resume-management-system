@@ -7,6 +7,7 @@ use App\Application\Command\Company\DeleteCompanyCommand;
 use App\Application\Command\Company\UpdateCompanyCommand;
 use App\Application\Query\Company\GetCompanyByIdQuery;
 use App\Application\Service\CompanyService;
+use App\Contracts\Service\CompanyServiceInterface;
 use App\Presentation\Form\CompanyType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController extends AbstractController
 {
-    private CompanyService $service;
+    private CompanyServiceInterface $service;
 
-    public function __construct(CompanyService $service)
+    public function __construct(CompanyServiceInterface $service)
     {
         $this->service = $service;
     }

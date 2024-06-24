@@ -4,8 +4,9 @@ namespace App\Application\EventHandler\Reaction;
 
 use App\Domain\Event\Reaction\ReactionCreatedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ReactionCreatedHandler
+class ReactionCreatedHandler implements EventSubscriberInterface
 {
     private LoggerInterface $logger;
 
@@ -14,7 +15,14 @@ class ReactionCreatedHandler
         $this->logger = $logger;
     }
 
-    public function __invoke(ReactionCreatedEvent $event): void
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'reaction.created' => 'onReactionCreated',
+        ];
+    }
+
+    public function onReactionCreated(ReactionCreatedEvent $event): void
     {
         $this->logger->info('Reaction created', ['reaction' => $event->getReaction()]);
     }
